@@ -1,5 +1,12 @@
 'use strict';
 
+var app = {
+    title: 'Indecision App',
+    subtitle: 'React web developer course Indecision App',
+    options: ['One', 'Two']
+
+};
+
 // JSX - JavaScript XML
 var template = React.createElement(
     'div',
@@ -7,12 +14,17 @@ var template = React.createElement(
     React.createElement(
         'h1',
         null,
-        'Indecision App'
+        app.title
+    ),
+    app.subtitle && React.createElement(
+        'p',
+        null,
+        app.subtitle
     ),
     React.createElement(
         'p',
         null,
-        'This is some info'
+        app.options.length > 0 ? 'Here are your options' : 'No options'
     ),
     React.createElement(
         'ol',
@@ -30,26 +42,40 @@ var template = React.createElement(
     )
 ); // -> Wrapper div!
 
+var user = {
+    name: 'Ctur',
+    age: 23,
+    location: 'Istanbul'
+};
+
+function getLocation(location) {
+    if (location) {
+        return React.createElement(
+            'p',
+            null,
+            'Location: ',
+            location
+        );
+    }
+}
+
 var templateTwo = React.createElement(
     'div',
     null,
     React.createElement(
         'h1',
         null,
-        ' Ctur'
+        user.name ? user.name : 'Anonymous'
     ),
-    React.createElement(
+    user.age >= 18 && React.createElement(
         'p',
         null,
-        '  Age: 23'
+        'Age: ',
+        user.age
     ),
-    React.createElement(
-        'p',
-        null,
-        '  Location: Istanbul'
-    )
+    getLocation(user.location)
 );
 
 var appRoot = document.getElementById('app');
 
-ReactDOM.render(templateTwo, appRoot);
+ReactDOM.render(template, appRoot);
