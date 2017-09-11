@@ -1,52 +1,66 @@
 const app = {
     title: 'Indecision App',
     subtitle: 'React web developer course Indecision App',
-    options: ['One', 'Two']
+    options: []
 
 };
 
-// JSX - JavaScript XML
-const template = (
-    <div>
-        <h1>{app.title}</h1>
-        {/* logical and operator */}
-        {app.subtitle && <p>{app.subtitle}</p>}
-        {/* Adding our javascript inside curly braces*/}
-        {/* Ternary operator true -> use left , wrong -> use right */}
-        {/*(app.options.length > 0) ? <p>Here are your options</p> : <p>No options</p>
-                    this was another way
-                    second way below
-                */}
-        <p>{(app.options.length > 0)
-                ? 'Here are your options'
-                : 'No options'}</p>
-        <ol>
-            <li>Item one</li>
-            <li>Item two</li>
-        </ol>
-    </div>
-); // -> Wrapper div!
+const onFormSubmit = (e) => {
+    e.preventDefault();
 
-let count = 0;
-const addOne = () => {
-    console.log('add one');
+    const option = e.target.elements.option.value;
+    
+    if (option){
+        app.options.push(option);
+        e.target.elements.option.value = '';
+        render();
+    }
+  
 };
 
-const minusOne = () => {
-    console.log('minusOne');
+const onRemoveAll = () => {
+    app.options = [];
+    render();
 };
-
-const reset = () => { console.log('reset'); };
-
-const templateTwo = (
-    <div>
-      <h1>Count: {count}</h1>
-      <button onClick={addOne}>+1</button>
-      <button onClick={minusOne}>-1</button>
-      <button onClick={reset}>reset</button>
-    </div>
-);
 
 const appRoot = document.getElementById('app');
 
-ReactDOM.render(templateTwo, appRoot);
+
+// this arrow function for re-rendering app
+const render = () => {
+        // JSX - JavaScript XML
+    const template = (
+        <div>
+            <h1>{app.title}</h1>
+            {/* logical and operator */}
+            {app.subtitle && <p>{app.subtitle}</p>}
+            {/* Adding our javascript inside curly braces*/}
+            {/* Ternary operator true -> use left , wrong -> use right */}
+            {/*(app.options.length > 0) ? <p>Here are your options</p> : <p>No options</p>
+                        this was another way
+                        second way below
+                    */}
+            <p>{(app.options.length > 0)
+                    ? 'Here are your options'
+                    : 'No options'}
+            </p>
+            <p>{app.options.length}</p>
+            <button onClick={onRemoveAll}>Remove All</button>
+            <ol>
+                <li>Item one</li>
+                <li>Item two</li>
+            </ol>
+            <form onSubmit={onFormSubmit}>
+            <input type="text" name="option"/>
+            <button>Add option</button>
+            </form>
+        </div>
+    ); // -> Wrapper div!
+
+    ReactDOM.render(template, appRoot);
+};
+
+render();
+
+
+

@@ -3,84 +3,87 @@
 var app = {
     title: 'Indecision App',
     subtitle: 'React web developer course Indecision App',
-    options: ['One', 'Two']
+    options: []
 
 };
 
-// JSX - JavaScript XML
-var template = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        app.title
-    ),
-    app.subtitle && React.createElement(
-        'p',
-        null,
-        app.subtitle
-    ),
-    React.createElement(
-        'p',
-        null,
-        app.options.length > 0 ? 'Here are your options' : 'No options'
-    ),
-    React.createElement(
-        'ol',
-        null,
-        React.createElement(
-            'li',
-            null,
-            'Item one'
-        ),
-        React.createElement(
-            'li',
-            null,
-            'Item two'
-        )
-    )
-); // -> Wrapper div!
+var onFormSubmit = function onFormSubmit(e) {
+    e.preventDefault();
 
-var count = 0;
-var addOne = function addOne() {
-    console.log('add one');
+    var option = e.target.elements.option.value;
+
+    if (option) {
+        app.options.push(option);
+        e.target.elements.option.value = '';
+        render();
+    }
 };
 
-var minusOne = function minusOne() {
-    console.log('minusOne');
+var onRemoveAll = function onRemoveAll() {
+    app.options = [];
+    render();
 };
-
-var reset = function reset() {
-    console.log('reset');
-};
-
-var templateTwo = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        'Count: ',
-        count
-    ),
-    React.createElement(
-        'button',
-        { onClick: addOne },
-        '+1'
-    ),
-    React.createElement(
-        'button',
-        { onClick: minusOne },
-        '-1'
-    ),
-    React.createElement(
-        'button',
-        { onClick: reset },
-        'reset'
-    )
-);
 
 var appRoot = document.getElementById('app');
 
-ReactDOM.render(templateTwo, appRoot);
+// this arrow function for re-rendering app
+var render = function render() {
+    // JSX - JavaScript XML
+    var template = React.createElement(
+        'div',
+        null,
+        React.createElement(
+            'h1',
+            null,
+            app.title
+        ),
+        app.subtitle && React.createElement(
+            'p',
+            null,
+            app.subtitle
+        ),
+        React.createElement(
+            'p',
+            null,
+            app.options.length > 0 ? 'Here are your options' : 'No options'
+        ),
+        React.createElement(
+            'p',
+            null,
+            app.options.length
+        ),
+        React.createElement(
+            'button',
+            { onClick: onRemoveAll },
+            'Remove All'
+        ),
+        React.createElement(
+            'ol',
+            null,
+            React.createElement(
+                'li',
+                null,
+                'Item one'
+            ),
+            React.createElement(
+                'li',
+                null,
+                'Item two'
+            )
+        ),
+        React.createElement(
+            'form',
+            { onSubmit: onFormSubmit },
+            React.createElement('input', { type: 'text', name: 'option' }),
+            React.createElement(
+                'button',
+                null,
+                'Add option'
+            )
+        )
+    ); // -> Wrapper div!
+
+    ReactDOM.render(template, appRoot);
+};
+
+render();
