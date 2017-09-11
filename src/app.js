@@ -23,8 +23,13 @@ const onRemoveAll = () => {
     render();
 };
 
-const appRoot = document.getElementById('app');
+const onMakeDecision = () =>{
+    const randomNum = Math.floor(Math.random() * app.options.length);
+    const option = app.options[randomNum];
+    alert(option);
+};
 
+const appRoot = document.getElementById('app');
 
 // this arrow function for re-rendering app
 const render = () => {
@@ -32,24 +37,27 @@ const render = () => {
     const template = (
         <div>
             <h1>{app.title}</h1>
-            {/* logical and operator */}
+                                                            {/* logical and operator */}
             {app.subtitle && <p>{app.subtitle}</p>}
-            {/* Adding our javascript inside curly braces*/}
-            {/* Ternary operator true -> use left , wrong -> use right */}
-            {/*(app.options.length > 0) ? <p>Here are your options</p> : <p>No options</p>
-                        this was another way
-                        second way below
-                    */}
+                                                            {/* Adding our javascript inside curly braces*/}
+                                                            {/* Ternary operator true -> use left , wrong -> use right */}
+                                                            {/*(app.options.length > 0) ? <p>Here are your options</p> : <p>No options</p>
+                                                                        this was another way
+                                                                        second way below
+                                                            */}
             <p>{(app.options.length > 0)
                     ? 'Here are your options'
                     : 'No options'}
             </p>
-            <p>{app.options.length}</p>
+            <button disabled={app.options.length === 0} onClick={onMakeDecision}>What should i do now?</button>
             <button onClick={onRemoveAll}>Remove All</button>
+
             <ol>
-                <li>Item one</li>
-                <li>Item two</li>
+                {
+                    app.options.map((option) => <li key={option}>{option}</li>)
+                }
             </ol>
+
             <form onSubmit={onFormSubmit}>
             <input type="text" name="option"/>
             <button>Add option</button>
