@@ -41,8 +41,14 @@ class Action extends React.Component {
 }
 
 class Options extends React.Component{
+    constructor(props){
+        super(props);
+        // Calling bind on the contrustor for setting right context for our event handler
+        this.handleRemoveAll = this.handleRemoveAll.bind(this);
+    }
     handleRemoveAll(){
-        alert('handleRemoveAll');
+        console.log(this.props.options);
+        // alert('handleRemoveAll');
     };
     render() {
       return (
