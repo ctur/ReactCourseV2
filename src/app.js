@@ -1,74 +1,77 @@
-const app = {
-    title: 'Indecision App',
-    subtitle: 'React web developer course Indecision App',
-    options: []
-
-};
-
-const onFormSubmit = (e) => {
-    e.preventDefault();
-
-    const option = e.target.elements.option.value;
-    
-    if (option){
-        app.options.push(option);
-        e.target.elements.option.value = '';
-        render();
+class IndecisionApp extends React.Component {
+    render() {
+        const title = 'Indecision App';
+        const subtitle = 'Put your life in the hands of a computer!!';
+        const options = ['Thing one', 'Thing two', 'Thing five'];
+        return (
+            <div>
+                <Header title={title} subtitle={subtitle} />
+                <Action />
+                <Options options={options} />
+                <AddOption />
+            </div>
+        );
     }
-  
-};
+}
 
-const onRemoveAll = () => {
-    app.options = [];
-    render();
-};
 
-const onMakeDecision = () =>{
-    const randomNum = Math.floor(Math.random() * app.options.length);
-    const option = app.options[randomNum];
-    alert(option);
-};
 
-const appRoot = document.getElementById('app');
+class Header extends React.Component {
+    render() {        
+        return (
+            <div>
+             <h1>{this.props.title}</h1>
+             <h2>{this.props.subtitle}</h2>
+            </div>
+        );
+    }
+}
 
-// this arrow function for re-rendering app
-const render = () => {
-        // JSX - JavaScript XML
-    const template = (
+class Action extends React.Component {
+    render() {
+        return (
+            <div>
+             <button>What should i do?</button>
+            </div>
+        );
+    }
+}
+
+class Options extends React.Component{
+    render() {
+      return (
         <div>
-            <h1>{app.title}</h1>
-                                                            {/* logical and operator */}
-            {app.subtitle && <p>{app.subtitle}</p>}
-                                                            {/* Adding our javascript inside curly braces*/}
-                                                            {/* Ternary operator true -> use left , wrong -> use right */}
-                                                            {/*(app.options.length > 0) ? <p>Here are your options</p> : <p>No options</p>
-                                                                        this was another way
-                                                                        second way below
-                                                            */}
-            <p>{(app.options.length > 0)
-                    ? 'Here are your options'
-                    : 'No options'}
-            </p>
-            <button disabled={app.options.length === 0} onClick={onMakeDecision}>What should i do now?</button>
-            <button onClick={onRemoveAll}>Remove All</button>
-
-            <ol>
-                {
-                    app.options.map((option) => <li key={option}>{option}</li>)
-                }
-            </ol>
-
-            <form onSubmit={onFormSubmit}>
-            <input type="text" name="option"/>
-            <button>Add option</button>
-            </form>
+         <p> Options will be here</p> 
+         {
+             // key reserved key and cannot usable as props key.
+            this.props.options.map((option) => <Option key={option} optionText={option}/>)
+         }
+         
         </div>
-    ); // -> Wrapper div!
+      );
+    }
+}
 
-    ReactDOM.render(template, appRoot);
-};
+class Option extends React.Component{
+    render() {
+        console.log(this.props);
+        return (
+           <div>
+            {this.props.optionText}
+           </div>
+        );
+    }
+}
 
-render();
+class AddOption extends React.Component{
+    render() {
+        return (
+            <div>
+                <p> Add option will be here</p>
+            </div>
+        );
+    }
+}
 
 
-
+ReactDOM.render(<IndecisionApp />, document.getElementById('app'));
